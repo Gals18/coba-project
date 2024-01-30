@@ -7,22 +7,22 @@ use App\Models\pegawai;
 
 class PegawaiController extends Controller
 {
-    //
-    // public function datapegawai(Pegawai $berkas){
-    //     $databerkas= Pegawai::all();
-    //        $data =[
+    
+    public function datapegawai(){
+        // $databerkas= Pegawai::all();
+        //    $data =[
+        //     'data'=>$databerkas,
+        //     'page'=> "Berkas"
+        //  ];
+           return view('berkas.index');
+    }
+    // public function DetailBerkas(ModelsBerkas $berkas){
+    //     $databerkas= ModelsBerkas::all();
+    //     $data =[
     //         'data'=>$databerkas,
     //         'page'=> "Berkas"
-    //      ];
-    //        return view('berkas.index',$data);
-    // }
-    // // public function DetailBerkas(ModelsBerkas $berkas){
-    // //     $databerkas= ModelsBerkas::all();
-    // //     $data =[
-    // //         'data'=>$databerkas,
-    // //         'page'=> "Berkas"
-    // //     ];
-    // //     return view('berkas.index',$data);
+    //     ];
+    //     return view('berkas.index',$data);
         
-    // // }
+    // }
 }

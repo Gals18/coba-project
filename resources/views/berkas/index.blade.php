@@ -4,16 +4,8 @@
     <h5 class="card-title text-light fw-semibold mb-4">Data Berkas</h5>
     <h1>Data Excel to HTML</h1>
 
-    <table border="1" id="excelTable">
-        <!-- Tabel akan diisi menggunakan JavaScript -->
-    </table>
-    {{-- @foreach ($data as $row)
-    <section class="card p-5">
-        <a class="btn bg-dark" href="{{ asset( Storage::url('fileExcel/' . $row->file_excel)) }}" download="{{ $row->file_excel }}">
-            1
-        </a>
-    </section>
-@endforeach --}}
+    
+   <a type="button" href="/admin/upload_berkas">Upload Berkas baru</a>
 @foreach ($data as $d)
 <section class="card">
 <h1>{{ $d->id }}</h1>
