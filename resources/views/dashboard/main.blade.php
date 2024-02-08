@@ -19,7 +19,7 @@
             <div class="container-fluid">
                 <div class="container-fluid">
                     <div class="card">
-                        <div class="card-body bg-dark">
+                        <div class="card-body bg-light">
                             @yield('content')
                         </div>
                     </div>

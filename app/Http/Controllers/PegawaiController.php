@@ -14,7 +14,7 @@ class PegawaiController extends Controller
         //     'data'=>$databerkas,
         //     'page'=> "Berkas"
         //  ];
-           return view('berkas.index');
+           return view('pegawai.index');
     }
     // public function DetailBerkas(ModelsBerkas $berkas){
     //     $databerkas= ModelsBerkas::all();

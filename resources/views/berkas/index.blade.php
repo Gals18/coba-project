@@ -9,7 +9,8 @@
 @foreach ($data as $d)
 <section class="card">
 <h1>{{ $d->id }}</h1>
-<p>{{ $d->file_pdf }}</p>
+<p class="ms-3">{{ $d->file_pdf }}</p>
+<p class="ms-3">{{ $d->file_excel }}</p>
 <span>
     <a href="/berkas/detail/{{ $d->id }}" class="btn badge bg-info ms-4">
         <i class='bx bxs-info-circle'></i> Detail

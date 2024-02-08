@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Validator;
 class AdminController extends Controller
 {
     public function index(){
-        return view('admin');
+        return view('dashboard.index');
     }
 
     public function operator(){
@@ -66,7 +66,7 @@ class AdminController extends Controller
 
         if($berkas){
             var_dump($berkas);
-            return redirect('/berkas')->withSuccess('File berhasil ditambahkan!');
+            return redirect('/admin/berkas')->withSuccess('File berhasil ditambahkan!');
         }else {
             return redirect()->back()->withErrors('Gagal tambah file!, terjadi kesalahan');
         }
