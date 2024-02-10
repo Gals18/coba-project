@@ -359,6 +359,13 @@ return [
         'remote_disk'         => null,
         'remote_prefix'       => null,
 
+
+
+        'templates' => [
+            'driver' => 'local',
+            'root' => storage_path('templates'),
+        ],
+
         /*
         |--------------------------------------------------------------------------
         | Force Resync

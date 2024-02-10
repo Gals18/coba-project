@@ -31,7 +31,7 @@
                     </div>
                 @endif
                 
-                <form action="" method="POST">
+                <form action="/aksi-login" method="POST">
                     @csrf
                   <div class="mb-3">
                     <label for="username" class="form-label">Username</label>

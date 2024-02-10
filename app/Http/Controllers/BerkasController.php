@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Berkas as ModelsBerkas;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
 class BerkasController extends Controller
@@ -13,12 +14,14 @@ class BerkasController extends Controller
         return view('berkas.upload');
     }
 
-    public function DetailBerkas(ModelsBerkas $berkas){
+    public function DetailBerkas(){
+        
         $databerkas= ModelsBerkas::all();
         $data =[
             'data'=>$databerkas,
             'page'=> "Berkas"
         ];
+
         return view('berkas.index',$data);
         
     }
@@ -33,16 +36,7 @@ class BerkasController extends Controller
         // var_dump($data);
         return view('berkas.index',$data);
        
-        // Pastikan file Excel ada di lokasi yang diinginkan
-        // if (file_exists($filePath)) {
-        //     $data = Excel::toArray(new YourExcelExport(), $filePath)[0];
-
-        //     return view('berkas.index', [
-        //         'data' => $data,
-        //     ]);
-        // } else {
-        //     return response()->json(['error' => 'File Excel tidak ditemukan'], 404);
-        // }
+        
     }
 
     public function create(Request $request, ModelsBerkas $berkas)
