@@ -40,14 +40,14 @@ class AdminController extends Controller
         $pegawai = Pengguna::findOrFail(session('id'));
 
         // Validasi input
-        $validator = Validator::make($request->all(), [
-            'foto' => 'required',
-            'ktp' => 'required',
-            'bpjs' => 'required',
-            'vaksin' => 'required',
-            'file_pdf' => 'required',
-            'file_excel' => 'required',
-        ]);
+         $validator = Validator::make($request->all(), [
+             'foto' => 'required',
+             'ktp' => 'required',
+             'bpjs' => 'required',
+             'vaksin' => 'required',
+             'file_pdf' => 'required',
+             'file_excel' => 'required',
+         ]);
 
         $pegawai->foto = $this->uploadFile('foto', 'fileFoto', $request);
         $pegawai->ktp = $this->uploadFile('ktp', 'fileKTP', $request);
@@ -96,23 +96,26 @@ class AdminController extends Controller
     // namainput, nama folder
     function uploadFile($namaFile, $folderTujuan, Request $request)
     {
-
         if ($request->hasFile($namaFile)) {
             $file = $request->file($namaFile);
             $randNum = rand(000, 999);
             $oriName = $file->getClientOriginalName();
             $name = $randNum . $oriName;
-
+            $oldFileName = session($namaFile);
+    
             $tujuanUpload = $folderTujuan;
-
-            // $hasil = $file->storeAs($tujuanUpload,$name);
-
+    
+            // Hapus file lama jika ada dan nama file lama tersedia
+            if ($oldFileName && Storage::exists($tujuanUpload . '/' . $oldFileName)) {
+                Storage::delete($tujuanUpload . '/' . $oldFileName);
+            }
+            
             $file->storeAs($tujuanUpload, $name, 'public');
-            // $hasil = Storage::putFileAs($tujuanUpload, $file, $name);
-            // return $hasil;
+    
             return $name;
         }
-
+    
         return false;
     }
+    
 }

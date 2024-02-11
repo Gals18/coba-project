@@ -1,20 +1,6 @@
 @extends('dashboard.main')
 @section('title', 'Table')
 @section('content')
-<script>
-//     document.getElementById('file_excel').addEventListener('change', function(e) {
-//     var file = e.target.files[0];
-//     var reader = new FileReader();
-//     reader.onload = function(e) {
-//         var data = new Uint8Array(e.target.result);
-//         var workbook = XLSX.read(data, {type: 'array'});
-//         var html = XLSX.utils.sheet_to_html(workbook.Sheets[workbook.SheetNames[0]]);
-//         document.getElementById('excel-data').innerHTML = html;
-//     };
-//     reader.readAsArrayBuffer(file);
-// });
-
-</script>
     <div class="card">
         @if (Auth::user()->role == 'pegawai')
             <div class="card-body">
@@ -39,9 +25,14 @@
                     @csrf
 
                     <div class="form-group mt-3">
-                        <label for="text">Masukan Foto Pegawai</label>
-                        <input type="file" name="foto" class="form-control" >
+                    {{-- <img src="{{ asset('storage/fileFoto/' . session('foto')) }}" alt="Foto Pegawai">                        <label for="foto">Masukkan Foto Pegawai</label> --}}
+                        <input type="file" name="foto" class="form-control" id="foto">
+                        <p>{{ $data->'role'}}.</p>
                     </div>
+                    
+                    {{-- @php
+                        dd(session('foto'));
+                    @endphp --}}
                     <div class="form-group mt-3">
                         <label for="text">Masukan foto ktp</label>
                         <input type="file" name="ktp" class="form-control" >
