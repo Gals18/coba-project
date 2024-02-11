@@ -25,19 +25,6 @@ class BerkasController extends Controller
         return view('berkas.index',$data);
         
     }
-    public function show(ModelsBerkas $berkas)
-    {
-        // $modber= Berkas::all();
-        // $filePath = storage_path('fileExcel/' . $berkas->file_excel);
-        $data =[
-            'data'=>$berkas,
-            'page'=> "Berkas"
-        ];
-        // var_dump($data);
-        return view('berkas.index',$data);
-       
-        
-    }
 
     public function create(Request $request, ModelsBerkas $berkas)
     {
