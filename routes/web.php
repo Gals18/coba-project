@@ -4,6 +4,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\BerkasController;
 use App\Http\Controllers\SesiController;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Filesystem\FilesystemAdapter;
 use App\Http\Controllers\ExcelController;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Controllers\PegawaiController;
@@ -36,21 +37,7 @@ Route::group(['middleware'=>'cekLogin'], function () {
 
     //router untuk akses berkas
     Route::get('/admin/Berkas', [BerkasController::class, 'DetailBerkas']);
-
-    // Route::get('/file-excel', function () {
-    //     $pathToFile = Storage::disk('public')->path('fileExcel/' . $d->file_excel);
-    //     $headers = [
-    //         'Content-Type' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-    //     ];
-    //     return response()->file($pathToFile, $headers);
-    // });
-
-    // Route::get('/file-excel/{file}', function ($file) {
-    //     $pathToFile = Storage::disk('public')->path('fileExcel/' . $file);
-    //     return response()->file($pathToFile);
-    // });
-
-
+    Route::get('/file-excel/{berkas}', [BerkasController::class, 'show']);
     Route::get('/admin/upload_berkas', [BerkasController::class, 'formBerkas']);
     Route::post('/berkas/create', [AdminController::class, 'create']);
     Route::get('/berkas/detail/{id}', [ExcelController::class, 'show']);
