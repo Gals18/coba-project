@@ -10,6 +10,7 @@ use App\Models\Berkas as ModelsBerkas;
 use App\Models\Pengguna as Modelspegawai;
 use App\Models\Pengguna;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 
 use Illuminate\Support\Facades\Validator;
 
@@ -69,14 +70,16 @@ class AdminController extends Controller
         $fileExcel = $request->file('file_excel');
 
         // Simpan file pdf
-        $tujuanUploadPdf = 'filePdf/';
-        $finalNamePdf = date('ymdhis') . "-" . $filePdf->getClientOriginalName();
-        $filePdf->storeAs($tujuanUploadPdf, $finalNamePdf, 'public');
+        // $tujuanUploadPdf = 'filePdf/';
+        // $finalNamePdf = date('ymdhis') . "-" . $filePdf->getClientOriginalName();
+        // $filePdf->storeAs($tujuanUploadPdf, $finalNamePdf, 'public');
+        $finalNamePdf = $this->uploadBerkas('filePdf/', $filePdf);
 
-        // Simpan file excel
-        $tujuanUploadExcel = 'fileExcel/';
-        $finalNameExcel = date('ymdhis') . "-" . $fileExcel->getClientOriginalName();
-        $fileExcel->storeAs($tujuanUploadExcel, $finalNameExcel, 'public');
+        // // Simpan file excel
+        // $tujuanUploadExcel = 'fileExcel/';
+        // $finalNameExcel = date('ymdhis') . "-" . $fileExcel->getClientOriginalName();
+        // $fileExcel->storeAs($tujuanUploadExcel, $finalNameExcel, 'public');
+        $finalNameExcel = $this->uploadBerkas('fileExcel/', $fileExcel);
 
         // Simpan data berkas ke dalam tabel Berkas
         $berkas->create([
@@ -94,9 +97,18 @@ class AdminController extends Controller
     }
 
     // namainput, nama folder
-    function uploadFile($namaFile, $folderTujuan, Request $request)
+    function updatePegawaiFile($namaFile, $namaFileLama ,$folderTujuan, Request $request)
     {
         if ($request->hasFile($namaFile)) {
+            // cek apakah namafile lama ada di folder storage, kalo ada hapus file lamanya
+            // ./storage/blablabla.pdf
+            if (file_exists('.'.Storage::url($folderTujuan . $namaFileLama))) {
+                unlink('.'.Storage::url($folderTujuan . $namaFileLama));
+            }
+
+
+
+            //lakukan upload gambar yang baru
             $file = $request->file($namaFile);
             $randNum = rand(000, 999);
             $oriName = $file->getClientOriginalName();
