@@ -42,10 +42,13 @@ class AdminController extends Controller
 
         // Validasi input
         $validator = Validator::make($request->all(), [
+            // sengaja dibuat nullable, soalnya pegawai nggak harus melulu
+            //  ganti dokumen pegawai setiap saat mau upload berkasnya
             'foto' => 'nullable',
             'ktp' => 'nullable',
             'bpjs' => 'nullable',
-            'vaksin' => 'nullable',
+            'vaksin' => 'nullable'
+            ,
             'file_pdf' => 'required',
             'file_excel' => 'required',
         ]);
