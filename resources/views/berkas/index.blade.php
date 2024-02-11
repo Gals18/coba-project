@@ -7,10 +7,8 @@
 
 
     <h5 class="card-title text-light fw-semibold mb-4">Data Berkas</h5>
-    <h1>Data Excel to HTML</h1>
-
-
-    <a class="btn btn-primary mb-4" href="/admin/upload_berkas"><i class="ti ti-plus"></i> Upload Berkas baru</a>
+    <h1>Masukan Data Untuk Pegawai</h1>
+    <a class="btn btn-primary mb-4" href="/admin/upload_berkas/{{ session('id') }}"><i class="ti ti-plus"></i> Perbarui Berkas</a>
     @foreach ($data as $d)
         <div class="card">
             {{-- <h1>{{ $d->id }}</h1> --}}

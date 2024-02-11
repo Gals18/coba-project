@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Berkas as ModelsBerkas;
+use App\Models\Pengguna;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
@@ -13,7 +14,13 @@ class BerkasController extends Controller
 {
     public function formBerkas()
     {
-        return view('berkas.upload');
+        // $datapengguna = Pengguna::all();
+        $id = session('id');
+        $data = [
+            'pegawai' => $id,
+        ];
+
+        return view('berkas.upload',$data);
     }
 
     public function DetailBerkas()

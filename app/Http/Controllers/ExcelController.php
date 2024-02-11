@@ -14,6 +14,7 @@ class ExcelController extends Controller
     public function show($id)
     {
         $databerkas = ModelsBerkas::find($id);
+        
         $dataViewBerkas =[
             'data' => $databerkas
         ];

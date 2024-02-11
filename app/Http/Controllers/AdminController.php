@@ -46,14 +46,14 @@ class AdminController extends Controller
              'ktp' => 'required',
              'bpjs' => 'required',
              'vaksin' => 'required',
-             'file_pdf' => 'required',
-             'file_excel' => 'required',
+            //  'file_pdf' => 'required',
+            //  'file_excel' => 'required',
          ]);
 
-        $pegawai->foto = $this->uploadFile('foto', 'fileFoto', $request);
-        $pegawai->ktp = $this->uploadFile('ktp', 'fileKTP', $request);
-        $pegawai->bpjs = $this->uploadFile('bpjs', 'fileBPJS', $request);
-        $pegawai->vaksin = $this->uploadFile('vaksin', 'fileVaksin', $request);
+        $pegawai->foto = $this->updatePegawaiFile('foto', $pegawai->foto, 'fileFoto', $request);
+        $pegawai->ktp = $this->updatePegawaiFile('ktp',$pegawai->ktp, 'fileKTP', $request);
+        $pegawai->bpjs = $this->updatePegawaiFile('bpjs',$pegawai->bpjs, 'fileBPJS', $request);
+        $pegawai->vaksin = $this->updatePegawaiFile('vaksin',$pegawai->vaksin, 'fileVaksin', $request);
 
         // Jika validasi gagal, kembalikan pesan kesalahan
         if ($validator->fails()) {
@@ -129,5 +129,19 @@ class AdminController extends Controller
     
         return false;
     }
+
+    // harusnya disini ada function upload Berkas
+    // ----
+    function uploadBerkas($tujuanUpload, $request) {
+        $tujuan = $tujuanUpload;
+        $oriName = explode('.', $request->getClientOriginalName())[0];
+
+        $finalName = date('ymdhis') . "-" . Str::slug($oriName). '.' . $request->getClientOriginalExtension();
+        $request->storeAs($tujuan, $finalName, 'public');
+
+        return $finalName;
+    }
+//coba kmu 
+    
     
 }
