@@ -41,19 +41,22 @@ class AdminController extends Controller
         $pegawai = Pengguna::findOrFail(session('id'));
 
         // Validasi input
-         $validator = Validator::make($request->all(), [
-             'foto' => 'required',
-             'ktp' => 'required',
-             'bpjs' => 'required',
-             'vaksin' => 'required',
-            //  'file_pdf' => 'required',
-            //  'file_excel' => 'required',
-         ]);
-
-        $pegawai->foto = $this->updatePegawaiFile('foto', $pegawai->foto, 'fileFoto', $request);
-        $pegawai->ktp = $this->updatePegawaiFile('ktp',$pegawai->ktp, 'fileKTP', $request);
-        $pegawai->bpjs = $this->updatePegawaiFile('bpjs',$pegawai->bpjs, 'fileBPJS', $request);
-        $pegawai->vaksin = $this->updatePegawaiFile('vaksin',$pegawai->vaksin, 'fileVaksin', $request);
+        $validator = Validator::make($request->all(), [
+            // sengaja dibuat nullable, soalnya pegawai nggak harus melulu
+            //  ganti dokumen pegawai setiap saat mau upload berkasnya
+            'foto' => 'nullable',
+            'ktp' => 'nullable',
+            'bpjs' => 'nullable',
+            'vaksin' => 'nullable'
+            ,
+            'file_pdf' => 'required',
+            'file_excel' => 'required',
+        ]);
+            // parameter yang bisa di masukin : nama input, nama file lama, nama tempat file tujuan, file request
+        $pegawai->foto = $this->updatePegawaiFile('foto', $pegawai->foto,'fileFoto/', $request);
+        $pegawai->ktp = $this->updatePegawaiFile('ktp', $pegawai->ktp,'fileKTP/', $request);
+        $pegawai->bpjs = $this->updatePegawaiFile('bpjs', $pegawai->bpjs,'fileBPJS/', $request);
+        $pegawai->vaksin = $this->updatePegawaiFile('vaksin', $pegawai->vaksin,'fileVaksin/', $request);
 
         // Jika validasi gagal, kembalikan pesan kesalahan
         if ($validator->fails()) {
@@ -99,6 +102,8 @@ class AdminController extends Controller
     // namainput, nama folder
     function updatePegawaiFile($namaFile, $namaFileLama ,$folderTujuan, Request $request)
     {
+
+
         if ($request->hasFile($namaFile)) {
             // cek apakah namafile lama ada di folder storage, kalo ada hapus file lamanya
             // ./storage/blablabla.pdf
@@ -111,27 +116,26 @@ class AdminController extends Controller
             //lakukan upload gambar yang baru
             $file = $request->file($namaFile);
             $randNum = rand(000, 999);
-            $oriName = $file->getClientOriginalName();
-            $name = $randNum . $oriName;
-            $oldFileName = session($namaFile);
-    
+            // buat nama file jadi slug, biar lebih tertata + rapi
+            // output : dokumen-negara-sangat-rahasia.pdf
+            $oriName = explode('.',$file->getClientOriginalName())[0];
+            $extension = $file->getClientOriginalExtension();
+
+            // output : dokumen-negara-sangat-rahasia-902.pdf
+            $name = Str::slug($oriName)  .'-'.$randNum . '.' . $extension;
+
             $tujuanUpload = $folderTujuan;
-    
-            // Hapus file lama jika ada dan nama file lama tersedia
-            if ($oldFileName && Storage::exists($tujuanUpload . '/' . $oldFileName)) {
-                Storage::delete($tujuanUpload . '/' . $oldFileName);
-            }
-            
+
             $file->storeAs($tujuanUpload, $name, 'public');
-    
+
             return $name;
         }
-    
-        return false;
+
+        // ini terjadi ketika pegawai tidak perlu ubah filenya, jadi nama yang dipake tetep nama file yang lama
+        return $namaFileLama;
     }
 
-    // harusnya disini ada function upload Berkas
-    // ----
+
     function uploadBerkas($tujuanUpload, $request) {
         $tujuan = $tujuanUpload;
         $oriName = explode('.', $request->getClientOriginalName())[0];
