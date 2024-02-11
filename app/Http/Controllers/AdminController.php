@@ -10,6 +10,7 @@ use App\Models\Berkas as ModelsBerkas;
 use App\Models\Pengguna as Modelspegawai;
 use App\Models\Pengguna;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 
 use Illuminate\Support\Facades\Validator;
 
@@ -41,18 +42,18 @@ class AdminController extends Controller
 
         // Validasi input
         $validator = Validator::make($request->all(), [
-            'foto' => 'required',
-            'ktp' => 'required',
-            'bpjs' => 'required',
-            'vaksin' => 'required',
+            'foto' => 'nullable',
+            'ktp' => 'nullable',
+            'bpjs' => 'nullable',
+            'vaksin' => 'nullable',
             'file_pdf' => 'required',
             'file_excel' => 'required',
         ]);
-
-        $pegawai->foto = $this->uploadFile('foto', 'fileFoto', $request);
-        $pegawai->ktp = $this->uploadFile('ktp', 'fileKTP', $request);
-        $pegawai->bpjs = $this->uploadFile('bpjs', 'fileBPJS', $request);
-        $pegawai->vaksin = $this->uploadFile('vaksin', 'fileVaksin', $request);
+            // parameter yang bisa di masukin : nama input, nama file lama, nama tempat file tujuan, file request
+        $pegawai->foto = $this->updatePegawaiFile('foto', $pegawai->foto,'fileFoto/', $request);
+        $pegawai->ktp = $this->updatePegawaiFile('ktp', $pegawai->ktp,'fileKTP/', $request);
+        $pegawai->bpjs = $this->updatePegawaiFile('bpjs', $pegawai->bpjs,'fileBPJS/', $request);
+        $pegawai->vaksin = $this->updatePegawaiFile('vaksin', $pegawai->vaksin,'fileVaksin/', $request);
 
         // Jika validasi gagal, kembalikan pesan kesalahan
         if ($validator->fails()) {
@@ -69,14 +70,16 @@ class AdminController extends Controller
         $fileExcel = $request->file('file_excel');
 
         // Simpan file pdf
-        $tujuanUploadPdf = 'filePdf/';
-        $finalNamePdf = date('ymdhis') . "-" . $filePdf->getClientOriginalName();
-        $filePdf->storeAs($tujuanUploadPdf, $finalNamePdf, 'public');
+        // $tujuanUploadPdf = 'filePdf/';
+        // $finalNamePdf = date('ymdhis') . "-" . $filePdf->getClientOriginalName();
+        // $filePdf->storeAs($tujuanUploadPdf, $finalNamePdf, 'public');
+        $finalNamePdf = $this->uploadBerkas('filePdf/', $filePdf);
 
-        // Simpan file excel
-        $tujuanUploadExcel = 'fileExcel/';
-        $finalNameExcel = date('ymdhis') . "-" . $fileExcel->getClientOriginalName();
-        $fileExcel->storeAs($tujuanUploadExcel, $finalNameExcel, 'public');
+        // // Simpan file excel
+        // $tujuanUploadExcel = 'fileExcel/';
+        // $finalNameExcel = date('ymdhis') . "-" . $fileExcel->getClientOriginalName();
+        // $fileExcel->storeAs($tujuanUploadExcel, $finalNameExcel, 'public');
+        $finalNameExcel = $this->uploadBerkas('fileExcel/', $fileExcel);
 
         // Simpan data berkas ke dalam tabel Berkas
         $berkas->create([
@@ -94,25 +97,49 @@ class AdminController extends Controller
     }
 
     // namainput, nama folder
-    function uploadFile($namaFile, $folderTujuan, Request $request)
+    function updatePegawaiFile($namaFile, $namaFileLama ,$folderTujuan, Request $request)
     {
 
+
         if ($request->hasFile($namaFile)) {
+            // cek apakah namafile lama ada di folder storage, kalo ada hapus file lamanya
+            // ./storage/blablabla.pdf
+            if (file_exists('.'.Storage::url($folderTujuan . $namaFileLama))) {
+                unlink('.'.Storage::url($folderTujuan . $namaFileLama));
+            }
+
+
+
+            //lakukan upload gambar yang baru
             $file = $request->file($namaFile);
             $randNum = rand(000, 999);
-            $oriName = $file->getClientOriginalName();
-            $name = $randNum . $oriName;
+            // buat nama file jadi slug, biar lebih tertata + rapi
+            // output : dokumen-negara-sangat-rahasia.pdf
+            $oriName = explode('.',$file->getClientOriginalName())[0];
+            $extension = $file->getClientOriginalExtension();
+
+            // output : dokumen-negara-sangat-rahasia-902.pdf
+            $name = Str::slug($oriName)  .'-'.$randNum . '.' . $extension;
 
             $tujuanUpload = $folderTujuan;
 
-            // $hasil = $file->storeAs($tujuanUpload,$name);
-
             $file->storeAs($tujuanUpload, $name, 'public');
-            // $hasil = Storage::putFileAs($tujuanUpload, $file, $name);
-            // return $hasil;
+
             return $name;
         }
 
-        return false;
+        // ini terjadi ketika pegawai tidak perlu ubah filenya, jadi nama yang dipake tetep nama file yang lama
+        return $namaFileLama;
+    }
+
+
+    function uploadBerkas($tujuanUpload, $request) {
+        $tujuan = $tujuanUpload;
+        $oriName = explode('.', $request->getClientOriginalName())[0];
+
+        $finalName = date('ymdhis') . "-" . Str::slug($oriName). '.' . $request->getClientOriginalExtension();
+        $request->storeAs($tujuan, $finalName, 'public');
+
+        return $finalName;
     }
 }
