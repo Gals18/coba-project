@@ -7,20 +7,20 @@ use Illuminate\Http\Request;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Reader\Exception;
 use App\Models\Berkas as ModelsBerkas;
-use App\Models\Pengguna;
+use PhpOffice\PhpSpreadsheet\IOFactory;
+use PhpOffice\PhpSpreadsheet\Reader\Exception;
 
 class ExcelController extends Controller
 {
     public function show($id)
     {
         $databerkas = ModelsBerkas::find($id);
-       $datapegawai = Pengguna::find(session($id));
-        $data = [
-            'data'=>$databerkas,
-            'pegawai' => $datapegawai,
+        $dataViewBerkas =[
+            'data' => $databerkas
         ];
+        // dd($databerkas);
         try {
-            $filePath = storage_path('app/pubic/fileExcel/{$data->file_excel}');
+            $filePath = storage_path('app/public/' . 'fileExcel/' . $databerkas->file_excel);
             $reader = IOFactory::createReaderForFile($filePath);
             $spreadsheet = $reader->load($filePath);
             $sheet = $spreadsheet->getActiveSheet();
@@ -34,15 +34,17 @@ class ExcelController extends Controller
                 $data[] = $rowData;
             }
             // dd($data);
-            return view('berkas.detail', ['excelData' => $data]);
+            // return view('index', ['excelData' => $data]);
+            // array_push($dataViewBerkas, ["excelData" => $data]);
+            $dataViewBerkas['excelData'] = $data;
+
         } catch (Exception $e) {
             dd($e->getMessage());
         }
-        //   dd(databerkas);
-    }
 
-    public function readExcelFromDirectory()
-    {
-       
+
+
+    //   dd(databerkas);
+        return view('berkas.detail',$dataViewBerkas);
     }
 }
