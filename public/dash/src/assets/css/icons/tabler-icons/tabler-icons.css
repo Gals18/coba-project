@@ -711,7 +711,7 @@
 }
 
 .ti-arrow-right:before {
-  content: "\ea1f";
+  content: "\ea1c";
 }
 
 .ti-arrow-right-bar:before {
@@ -5382,6 +5382,10 @@
   content: "\ea9a";
 }
 
+.ti-eyelash:before {
+  content: "\f7ec";
+}
+
 .ti-eye-check:before {
   content: "\ee88";
 }
@@ -5687,7 +5691,7 @@
 }
 
 .ti-files:before {
-  content: "\edef";
+  content: "\f03e";
 }
 
 .ti-files-off:before {
@@ -7128,6 +7132,14 @@
 
 .ti-layout-dashboard:before {
   content: "\f02c";
+}
+
+.ti-layout-upload:before {
+  content: "\ec91";
+}
+
+.ti-layout-activate:before {
+  content: "\ed58";
 }
 
 .ti-layout-profile:before {

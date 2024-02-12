@@ -71,9 +71,9 @@ class SesiController extends Controller
             ];
             //pindah ke halaman home
             session($data);
-            return redirect('/admin')->withSuccess('Anda Berhasil Login');
+            return redirect('/home')->withSuccess('Anda Berhasil Login');
         } else {
-            return redirect()->back()->withErrors('Email atau Password Salah!');
+            return redirect()->back()->withErrors('Login failed!');
         }
     }
     function logout()

@@ -19,7 +19,7 @@
                 <a href="dashboard/main" class="text-nowrap logo-img text-center d-block py-3 w-100">
                   <img src="{{ asset('../dash/src')}}/assets/images/logos/dark-logo.svg" width="180" alt="">
                 </a>
-                <p class="text-center">Your Social Campaigns</p>
+                <p class="text-center">Telkom Akses Yogyakarta</p>
                 
                 @if($errors->any())
                     <div class="alert alert-danger">
@@ -32,21 +32,34 @@
                 @endif
                 
                 <form action="/aksi-login" method="POST">
-                    @csrf
+                  @csrf
                   <div class="mb-3">
-                    <label for="username" class="form-label">Username</label>
-                    <input type="username" value="{{ old('username') }}" name="username" class="form-control">
+                      <label for="username" class="form-label">Username</label>
+                      <input type="username" value="{{ old('username') }}" name="username" class="form-control">
+                  </div>
+                  <div class="mb-2">
+                      <label for="password" class="form-label">Password</label>
+                      <input type="password" name="password" id="password" class="form-control">
                   </div>
                   <div class="mb-4">
-                    <label for="password" class="form-label">Password</label>
-                    <input type="password" name="password" class="form-control">
-                  </div>
-                  
+                    <input type="checkbox" id="showPassword">
+                    <label for="showPassword">Show Password</label>
+                </div>
                   <div class="mb-4 d-grid">
-                    <button name="submit" type="submit" class="btn btn-primary">Login</button>
+                      <button name="submit" type="submit" class="btn btn-primary">Login</button>
                   </div>
-                  
                 </form>
+                
+                <script>
+                    const showPasswordCheckbox = document.getElementById('showPassword');
+                    const passwordInput = document.getElementById('password');
+                
+                    showPasswordCheckbox.addEventListener('change', function () {
+                        const isPasswordVisible = this.checked;
+                        passwordInput.type = isPasswordVisible ? 'text' : 'password';
+                    });
+                </script>
+              
               </div>
             </div>
           </div>

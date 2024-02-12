@@ -21,24 +21,24 @@ use App\Http\Controllers\PegawaiController;
 */
 
    
-    Route::middleware(['guest'])->group(function () {
-        Route::get('/', [SesiController::class, 'index'])->name('login');
-        Route::post('/aksi-login', [SesiController::class, 'aksilogin']);
-    });
+Route::middleware(['guest'])->group(function () {
+    Route::get('/', [SesiController::class, 'index'])->name('login');
+    Route::post('/aksi-login', [SesiController::class, 'aksilogin']);
+});
 
 Route::get('/home', function () {
-    return redirect('/admin');
+    // return redirect('/admin');
 });
 
 Route::group(['middleware'=>'cekLogin'], function () {
-    Route::get('/admin', [AdminController::class, 'index']);
-    Route::get('/admin/operator', [AdminController::class, 'operator']);
-    Route::get('/admin/pegawai', [PegawaiController::class, 'datapegawai']);
+    Route::get('/home', [AdminController::class, 'index']);
+    Route::get('/home/operator', [AdminController::class, 'operator']);
+    Route::get('/home/pegawai', [PegawaiController::class, 'datapegawai']);
 
     //router untuk akses berkas
-    Route::get('/admin/Berkas', [BerkasController::class, 'DetailBerkas']);
+    Route::get('/home/berkas', [BerkasController::class, 'DetailBerkas']);
     Route::get('/file-excel/{berkas}', [BerkasController::class, 'show']);
-    Route::get('/admin/upload_berkas', [BerkasController::class, 'formBerkas']);
+    Route::get('/home/upload_berkas', [BerkasController::class, 'formBerkas']);
     Route::post('/berkas/create', [AdminController::class, 'create']);
     Route::get('/berkas/detail/{id}', [ExcelController::class, 'show']);
 

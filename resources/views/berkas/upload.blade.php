@@ -15,6 +15,8 @@
 // });
 
 </script>
+
+<h5 class="card-title fw-semibold mb-4">Create NIK</h5>
     <div class="card">
         @if (Auth::user()->role == 'pegawai')
             <div class="card-body">
@@ -38,7 +40,91 @@
                 <form role="form" action="/berkas/create" method="post" style="width: 100%" enctype="multipart/form-data">
                     @csrf
 
-                    <div class="form-group mt-3">
+                    <div class="mb-3">
+                        <label class="form-label" for="inputFile">Foto Pegawai</label>
+                        <input 
+                          type="file" 
+                          name="foto" 
+                          id="inputFile"
+                          accept="image/*"
+                          class="form-control @error('file') is-invalid @enderror">
+  
+                          @error('file')
+                            <span class="text-danger">{{ $message }}</span>
+                          @enderror
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label class="form-label" for="inputFile">Foto KTP</label>
+                        <input 
+                            type="file" 
+                            name="ktp" 
+                            id="inputFile"
+                            accept="image/*"
+                            class="form-control @error('file') is-invalid @enderror">
+
+                        @error('file')
+                            <span class="text-danger">{{ $message }}</span>
+                        @enderror
+                    </div>
+
+                    <div class="mb-3">
+                      <label class="form-label" for="inputFile">Foto BPJS Ketenagakerjaan</label>
+                      <input 
+                          type="file" 
+                          name="bpjs" 
+                          id="inputFile"
+                          accept="image/*"
+                          class="form-control @error('file') is-invalid @enderror">
+
+                      @error('file')
+                          <span class="text-danger">{{ $message }}</span>
+                      @enderror
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label" for="inputFile">File Sertifikat Vaksin</label>
+                        <input 
+                            type="file" 
+                            name="vaksin" 
+                            id="inputFile"
+                            accept=".pdf"
+                            class="form-control @error('file') is-invalid @enderror">
+
+                        @error('file')
+                            <span class="text-danger">{{ $message }}</span>
+                        @enderror
+                      </div>
+
+                    <div class="mb-3">
+                      <label class="form-label" for="inputFile">File Create NIK</label>
+                      <input 
+                          type="file" 
+                          name="file_excel" 
+                          id="inputFile"
+                          accept=".xlsx, .xls"
+                          class="form-control @error('file') is-invalid @enderror">
+
+                      @error('file')
+                          <span class="text-danger">{{ $message }}</span>
+                      @enderror
+                    </div>
+
+                    <div class="mb-3">
+                      <label class="form-label" for="inputFile">File KHS Mitra</label>
+                      <input 
+                          type="file" 
+                          name="file_pdf" 
+                          id="inputFile"
+                          accept=".pdf"
+                          class="form-control @error('file') is-invalid @enderror">
+
+                      @error('file')
+                          <span class="text-danger">{{ $message }}</span>
+                      @enderror
+                    </div>
+
+                    {{-- <div class="form-group mt-3">
                         <label for="text">Masukan Foto Pegawai</label>
                         <input type="file" name="foto" class="form-control" >
                     </div>
@@ -62,8 +148,8 @@
                         <label for="text">Masukan File Excel</label>
                         <div id="excel-content"></div>
                         <input type="file" name="file_excel" accept=".xls,.xlsx" class="form-control" >
-                    </div>
-                    <button type="submit" class="btn btn-info mt-3">Submit</button>
+                    </div> --}}
+                    <button type="submit" class="btn btn-primary">Submit</button>
                 </form>
             </div>
         @endif

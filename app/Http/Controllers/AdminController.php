@@ -10,7 +10,6 @@ use App\Models\Berkas as ModelsBerkas;
 use App\Models\Pengguna as Modelspegawai;
 use App\Models\Pengguna;
 use Illuminate\Support\Facades\Auth;
-
 use Illuminate\Support\Facades\Validator;
 
 class AdminController extends Controller
@@ -25,29 +24,19 @@ class AdminController extends Controller
         return view('admin');
     }
 
-    public function pegawai()
-    {
-        return view('pegawai.index');
-    }
-    public function formBerkas()
-    {
-        return view('berkas.upload');
-    }
+    // public function pegawai()
+    // {
+    //     return view('pegawai.index');
+    // }
+    // public function formBerkas()
+    // {
+    //     return view('berkas.upload');
+    // }
 
     public function create(Request $request, ModelsBerkas $berkas)
     {
         // Ambil data pengguna berdasarkan ID yang diberikan
         $pegawai = Pengguna::findOrFail(session('id'));
-
-        // Validasi input
-        $validator = Validator::make($request->all(), [
-            'foto' => 'required',
-            'ktp' => 'required',
-            'bpjs' => 'required',
-            'vaksin' => 'required',
-            'file_pdf' => 'required',
-            'file_excel' => 'required',
-        ]);
 
         $pegawai->foto = $this->uploadFile('foto', 'fileFoto', $request);
         $pegawai->ktp = $this->uploadFile('ktp', 'fileKTP', $request);
@@ -55,11 +44,11 @@ class AdminController extends Controller
         $pegawai->vaksin = $this->uploadFile('vaksin', 'fileVaksin', $request);
 
         // Jika validasi gagal, kembalikan pesan kesalahan
-        if ($validator->fails()) {
-            return response()->json([
-                'error' => $validator->errors()
-            ], 422);
-        }
+        // if ($validator->fails()) {
+        //     return response()->json([
+        //         'error' => $validator->errors()
+        //     ], 422);
+        // }
 
         // Simpan perubahan pada data pengguna
         $pegawai->save();
@@ -85,6 +74,7 @@ class AdminController extends Controller
             'added_by' => Auth::id(), // Jika menggunakan auth, pastikan sudah mengimport facade Auth
         ]);
 
+        // dd($pegawai&&$berkas);
         // Redirect dengan pesan sukses jika berhasil, jika gagal kembali ke halaman sebelumnya dengan pesan error
         if ($berkas && $pegawai) {
             return redirect('/admin/Berkas')->withSuccess('File berhasil ditambahkan!');

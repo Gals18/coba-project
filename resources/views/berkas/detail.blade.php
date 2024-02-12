@@ -1,29 +1,34 @@
 @extends('dashboard.main')
 @section('title', 'Table')
 @section('content')
-    <h5 class="card-title text-light fw-semibold mb-4">Data Berkas</h5>
-    <h3>{{ $data->file_excel }}</h3>
+    <h5 class="card-title fw-semibold mb-3">Data Berkas</h5>
+    <p>{{ $data->file_excel }}</p>
     {{-- <div id="excel-content"></div> --}}
 
-    <table class="table table-bordered" id="datatable">
-        @foreach ($excelData as $key => $row)
-            @if ($key == 0)
+    <div class="card">
+        <div class="card-body">
+        <table class="table table-bordered" id="datatable">
+            @foreach ($excelData as $key => $row)
+                @if ($key == 0)
+                    <tr>
+                        @foreach ($row as $item)
+                            <th class="table-head table-primary">{{ $item }}</th>
+                        @endforeach
+                    </tr>
+                    @php
+                        continue;
+                    @endphp
+                @endif
                 <tr>
                     @foreach ($row as $item)
-                        <th class="table-head table-primary">{{ $item }}</th>
+                        <td>{{ $item }}</td>
                     @endforeach
                 </tr>
-                @php
-                    continue;
-                @endphp
-            @endif
-            <tr>
-                @foreach ($row as $item)
-                    <td>{{ $item }}</td>
-                @endforeach
-            </tr>
-        @endforeach
-    </table>
+            @endforeach
+        </table>
+        </div>
+    </div>
+    
 
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.4/xlsx.full.min.js"></script>
