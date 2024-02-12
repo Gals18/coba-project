@@ -34,7 +34,7 @@
                 </a>
               </li>
               <li class="sidebar-item">
-                <a class="sidebar-link" href="/admin/Berkas" aria-expanded="false">
+                <a class="sidebar-link" href="/home/berkas" aria-expanded="false">
                   <span>
                     <i class="ti ti-layout-activate"></i>
                   </span>

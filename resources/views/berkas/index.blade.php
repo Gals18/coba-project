@@ -1,16 +1,11 @@
 @extends('dashboard.main')
 @section('title', 'Table')
 @section('content')
-
-
-
-
-
     <h5 class="card-title text-light fw-semibold mb-4">Data Berkas</h5>
     <h1>Data Excel to HTML</h1>
 
 
-    <a class="btn btn-primary mb-4" href="/admin/upload_berkas"><i class="ti ti-plus"></i> Upload Berkas baru</a>
+    <a class="btn btn-primary mb-4" href="/home/upload_berkas"><i class="ti ti-plus"></i> Upload Berkas baru</a>
     @foreach ($data as $d)
         @if ($d->added_by == $loggedInUser->id)
             <div class="card">
