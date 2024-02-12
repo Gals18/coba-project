@@ -38,7 +38,7 @@ Route::group(['middleware'=>'cekLogin'], function () {
     //router untuk akses berkas
     Route::get('/home/berkas', [BerkasController::class, 'DetailBerkas']);
     Route::get('/file-excel/{berkas}', [BerkasController::class, 'show']);
-    Route::get('/home/upload_berkas', [BerkasController::class, 'formBerkas']);
+    Route::get('/admin/upload_berkas', [BerkasController::class, 'formBerkas']);
     Route::post('/berkas/create', [AdminController::class, 'create']);
     Route::get('/berkas/detail/{id}', [ExcelController::class, 'show']);
 

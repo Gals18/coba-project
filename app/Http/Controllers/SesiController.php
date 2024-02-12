@@ -68,6 +68,8 @@ class SesiController extends Controller
             $data = [
                 'id' => $selectUser->id,
                 'username' => $selectUser->username,
+                'foto'=>$selectUser->foto,
+                'role'=>$selectUser->role,
             ];
             //pindah ke halaman home
             session($data);
